@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/message_lyrics.dart';
 
-class GetLyrics extends Equatable {
+class TemplateLyrics extends Equatable {
   final MessageLyrics message;
 
-  const GetLyrics({required this.message});
+  const TemplateLyrics({required this.message});
 
-  factory GetLyrics.fromJson(Map<String, dynamic> json) {
-    return GetLyrics(message: json['message']);
+  factory TemplateLyrics.fromJson(Map<String, dynamic> json) {
+    return TemplateLyrics(message: json['message']);
   }
 
   @override

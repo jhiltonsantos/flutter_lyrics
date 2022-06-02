@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter_lyrics/core/app/app_constants.dart';
 import 'package:flutter_lyrics/core/connection/web_client.dart';
-import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/get_lyrics_entity.dart';
+import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/template_lyrics_entity.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/lyrics_entity.dart';
 import 'package:flutter_lyrics/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -18,15 +18,17 @@ import 'package:http/http.dart' as http;
 class GetLyricsRepository implements IGetLyricsRepository {
   @override
   Future<Either<Failure, Lyrics>> getLyrics(String track) async {
-    int FIRST_ELEMENT = 0;
     final http.Response response = await client.get(Uri.parse(
         "${AppConstants.API_GET_LYRICS}track_id=$track&apikey=${AppConstants.API_KEY}"));
 
     if (response.statusCode != 200) {
       return Left(ServerFailure());
     }
-    final List<GetLyrics> decodedLyricsJson = jsonDecode(response.body);
-    final Lyrics lyrics = decodedLyricsJson[FIRST_ELEMENT].message.body.lyrics;
+    final dynamic decodedLyricsJson = jsonDecode(response.body);
+    print("JSON: $decodedLyricsJson");
+    final TemplateLyrics auto = decodedLyricsJson;
+    final Lyrics lyrics = auto.message.body.lyrics;
+
     return Right(lyrics);
   }
 }
