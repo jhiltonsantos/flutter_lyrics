@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Lyrics extends Equatable {
+class LyricsEntity extends Equatable {
   final int lyricsId;
   final int explicit;
   final String lyricsBody;
@@ -9,7 +9,7 @@ class Lyrics extends Equatable {
   final String lyricsCopyright;
   final String updatedTime;
 
-  const Lyrics(
+  const LyricsEntity(
       {required this.lyricsId,
       required this.explicit,
       required this.lyricsBody,
@@ -18,8 +18,8 @@ class Lyrics extends Equatable {
       required this.lyricsCopyright,
       required this.updatedTime});
 
-  factory Lyrics.fromJson(Map<String, dynamic> json) {
-    return Lyrics(
+  factory LyricsEntity.fromJson(Map<String, dynamic> json) {
+    return LyricsEntity(
         lyricsId: json['lyrics_id'],
         explicit: json['explicit'],
         lyricsBody: json['lyrics_body'],

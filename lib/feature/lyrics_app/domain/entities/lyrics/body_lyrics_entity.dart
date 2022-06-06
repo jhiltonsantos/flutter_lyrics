@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/lyrics_entity.dart';
 
 class BodyLyrics extends Equatable {
-  final Lyrics lyrics;
+  final LyricsEntity lyrics;
 
   const BodyLyrics({required this.lyrics});
 
