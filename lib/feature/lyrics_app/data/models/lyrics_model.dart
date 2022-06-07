@@ -8,7 +8,8 @@ class LyricsModel extends LyricsEntity {
       required super.scriptTrackingUrl,
       required super.pixelTrackingUrl,
       required super.lyricsCopyright,
-      required super.updatedTime});
+      required super.updatedTime})
+      : super();
 
   factory LyricsModel.fromJson(Map<String, dynamic> json) {
     return LyricsModel(

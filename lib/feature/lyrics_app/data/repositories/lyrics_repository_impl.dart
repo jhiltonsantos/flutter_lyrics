@@ -15,7 +15,7 @@ import 'package:http/http.dart' as http;
 // http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=32016690&apikey=77433270cf4522cb6e2c8cbc82d510f7
 
 @Injectable(as: LyricsRepository)
-class LyricsRepositoryImp implements LyricsRepository {
+class LyricsRepositoryImpl implements LyricsRepository {
   @override
   Future<Either<Failure, LyricsModel>> getLyrics(String track) async {
     final http.Response response = await requestGetLyrics(track);
