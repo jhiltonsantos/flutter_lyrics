@@ -18,17 +18,6 @@ class LyricsEntity extends Equatable {
       required this.lyricsCopyright,
       required this.updatedTime});
 
-  factory LyricsEntity.fromJson(Map<String, dynamic> json) {
-    return LyricsEntity(
-        lyricsId: json['lyrics_id'],
-        explicit: json['explicit'],
-        lyricsBody: json['lyrics_body'],
-        scriptTrackingUrl: json['script_tracking_url'],
-        pixelTrackingUrl: json['pixel_tracking_url'],
-        lyricsCopyright: json['lyrics_copyright'],
-        updatedTime: json['updated_time']);
-  }
-
   @override
   List<Object?> get props => [
         lyricsId,
