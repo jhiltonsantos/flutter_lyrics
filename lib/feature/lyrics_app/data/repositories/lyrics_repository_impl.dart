@@ -8,6 +8,9 @@ import 'package:flutter_lyrics/core/constants/status_code_constants.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/data/models/lyrics_model.dart';
 import 'package:flutter_lyrics/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/header_lyrics_entity.dart';
+import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/message_lyrics.dart';
+import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/template_lyrics_entity.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/repositories/lyrics_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
@@ -19,10 +22,12 @@ class LyricsRepositoryImpl implements LyricsRepository {
   @override
   Future<Either<Failure, LyricsModel>> getLyrics(String track) async {
     final http.Response response = await requestGetLyrics(track);
-    if (response.statusCode != StatusCode.OK) {
+    final Map<String, dynamic> json = decodedJson(response);
+    //HeaderLyrics messageLyrics = HeaderLyrics.fromJson(json);
+    if (response.statusCode == StatusCode.OK) {
       return Left(ServerFailure());
     }
-    return Right(lyricsFromJson(response));
+    return Right(responseLyrics(json));
   }
 
   Future<http.Response> requestGetLyrics(String track) async {
@@ -30,9 +35,12 @@ class LyricsRepositoryImpl implements LyricsRepository {
         "${AppConstants.API_GET_LYRICS}track_id=$track&apikey=${AppConstants.API_KEY}"));
   }
 
-  LyricsModel lyricsFromJson(http.Response response) {
-    final dynamic decodedLyricsJson = jsonDecode(response.body);
-    final LyricsModel lyrics = decodedLyricsJson.message.body.lyrics;
-    return lyrics;
+  Map<String, dynamic> decodedJson(http.Response response) {
+    Map<String, dynamic> map = json.decode(response.body);
+    return map;
+  }
+
+  LyricsModel responseLyrics(dynamic json) {
+    return json.message.body.lyrics;
   }
 }

@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class HeaderLyrics extends Equatable {
-  final int statusCode;
-  final double executeTime;
+  final int? statusCode;
+  final double? executeTime;
 
-  const HeaderLyrics({required this.statusCode, required this.executeTime});
+  const HeaderLyrics({this.statusCode, this.executeTime});
 
   factory HeaderLyrics.fromJson(Map<String, dynamic> json) {
     return HeaderLyrics(
