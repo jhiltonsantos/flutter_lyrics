@@ -8,8 +8,6 @@ import 'package:flutter_lyrics/core/constants/status_code_constants.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/data/models/lyrics_model.dart';
 import 'package:flutter_lyrics/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/header_lyrics_entity.dart';
-import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/message_lyrics.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/template_lyrics_entity.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/repositories/lyrics_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -22,25 +20,36 @@ class LyricsRepositoryImpl implements LyricsRepository {
   @override
   Future<Either<Failure, LyricsModel>> getLyrics(String track) async {
     final http.Response response = await requestGetLyrics(track);
-    final Map<String, dynamic> json = decodedJson(response);
-    //HeaderLyrics messageLyrics = HeaderLyrics.fromJson(json);
+    TemplateLyricsEntity dataApi = createTemplateEntity(response);
     if (response.statusCode == StatusCode.OK) {
-      return Left(ServerFailure());
+      if (getStatusCodeFromDataApi(dataApi) != StatusCode.OK) {
+        return Left(ServerFailure());
+      }
+      return Right(responseLyrics(getJson(response)));
     }
-    return Right(responseLyrics(json));
+    return Left(ServerFailure());
   }
 
+  // Function for getLyrics
   Future<http.Response> requestGetLyrics(String track) async {
     return await client.get(Uri.parse(
         "${AppConstants.API_GET_LYRICS}track_id=$track&apikey=${AppConstants.API_KEY}"));
   }
 
-  Map<String, dynamic> decodedJson(http.Response response) {
-    Map<String, dynamic> map = json.decode(response.body);
-    return map;
+  Map<String, dynamic> getJson(http.Response response) {
+    return json.decode(response.body);
   }
 
-  LyricsModel responseLyrics(dynamic json) {
-    return json.message.body.lyrics;
+  TemplateLyricsEntity createTemplateEntity(http.Response response) {
+    return TemplateLyricsEntity.fromJson(getJson(response));
+  }
+
+  int? getStatusCodeFromDataApi(TemplateLyricsEntity dataApi) {
+    return dataApi.message!.header!.statusCode;
+  }
+
+  LyricsModel responseLyrics(Map<String, dynamic> json) {
+    LyricsModel lyricsModel = LyricsModel.fromJson(json);
+    return lyricsModel;
   }
 }

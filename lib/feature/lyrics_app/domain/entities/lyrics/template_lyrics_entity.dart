@@ -1,15 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/message_lyrics.dart';
 
-class TemplateLyrics extends Equatable {
-  final MessageLyrics message;
+class TemplateLyricsEntity {
+  MessageEntity? message;
 
-  const TemplateLyrics({required this.message});
+  TemplateLyricsEntity({this.message});
 
-  factory TemplateLyrics.fromJson(Map<String, dynamic> json) {
-    return TemplateLyrics(message: json['message']);
+  TemplateLyricsEntity.fromJson(Map<String, dynamic> json) {
+    message = json['message'] != null
+        ? MessageEntity.fromJson(json['message'])
+        : null;
   }
 
-  @override
-  List<Object?> get props => [message];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (message != null) {
+      data['message'] = message!.toJson();
+    }
+    return data;
+  }
 }

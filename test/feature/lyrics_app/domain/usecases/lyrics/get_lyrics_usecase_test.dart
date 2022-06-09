@@ -12,11 +12,11 @@ void main() {
   final repository = LyricsRepositoryImpl();
   final usecase = GetLyricsUsecase(repository);
 
-  const String tTrackId = '1';
+  const String tTrackId = '32016690';
 
-  test("Deve dar um erro ao tentar pegar uma letra de música", () async {
+  test("Deve pegar uma letra de música", () async {
     final test = await usecase.execute(tTrackId);
 
-    expect(test.isLeft(), equals(true));
+    expect(test.isRight(), equals(true));
   });
 }

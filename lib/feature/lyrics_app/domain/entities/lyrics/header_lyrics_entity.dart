@@ -1,14 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-class HeaderLyrics extends Equatable {
-  final int? statusCode;
-  final double? executeTime;
+class HeaderEntity extends Equatable {
+  int? statusCode;
+  double? executeTime;
 
-  const HeaderLyrics({this.statusCode, this.executeTime});
+  HeaderEntity({this.statusCode, this.executeTime});
 
-  factory HeaderLyrics.fromJson(Map<String, dynamic> json) {
-    return HeaderLyrics(
-        statusCode: json['status_code'], executeTime: json['execute_time']);
+  HeaderEntity.fromJson(Map<String, dynamic> json) {
+    statusCode = json['status_code'];
+    executeTime = json['execute_time'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status_code'] = statusCode;
+    data['execute_time'] = executeTime;
+    return data;
   }
 
   @override

@@ -1,13 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/lyrics_entity.dart';
 
-class BodyLyrics extends Equatable {
-  final LyricsEntity? lyrics;
+class BodyEntity extends Equatable {
+  LyricsEntity? lyrics;
 
-  const BodyLyrics({this.lyrics});
+  BodyEntity({this.lyrics});
 
-  factory BodyLyrics.fromJson(Map<String, dynamic> json) {
-    return BodyLyrics(lyrics: json['lyrics']);
+  BodyEntity.fromJson(Map<String, dynamic> json) {
+    lyrics =
+        json['lyrics'] != null ? LyricsEntity.fromJson(json['lyrics']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (lyrics != null) {
+      data['lyrics'] = lyrics!.toJson();
+    }
+    return data;
   }
 
   @override

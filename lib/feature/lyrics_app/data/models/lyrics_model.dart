@@ -1,7 +1,7 @@
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/lyrics_entity.dart';
 
 class LyricsModel extends LyricsEntity {
-  const LyricsModel(
+  LyricsModel(
       {required super.lyricsId,
       required super.explicit,
       required super.lyricsBody,
@@ -22,6 +22,7 @@ class LyricsModel extends LyricsEntity {
         updatedTime: json['updated_time']);
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['lyrics_id'] = lyricsId;

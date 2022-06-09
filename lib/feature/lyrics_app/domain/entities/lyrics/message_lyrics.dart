@@ -1,17 +1,26 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/body_lyrics_entity.dart';
 import 'package:flutter_lyrics/feature/lyrics_app/domain/entities/lyrics/header_lyrics_entity.dart';
 
-class MessageLyrics extends Equatable {
-  final HeaderLyrics header;
-  final BodyLyrics body;
+class MessageEntity {
+  HeaderEntity? header;
+  BodyEntity? body;
 
-  const MessageLyrics({required this.header, required this.body});
+  MessageEntity({this.header, this.body});
 
-  factory MessageLyrics.fromJson(Map<String, dynamic> json) {
-    return MessageLyrics(header: json['header'], body: json['body']);
+  MessageEntity.fromJson(Map<String, dynamic> json) {
+    header =
+        json['header'] != null ? HeaderEntity.fromJson(json['header']) : null;
+    body = json['body'] != null ? BodyEntity.fromJson(json['body']) : null;
   }
 
-  @override
-  List<Object?> get props => [header, body];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (header != null) {
+      data['header'] = header!.toJson();
+    }
+    if (body != null) {
+      data['body'] = body!.toJson();
+    }
+    return data;
+  }
 }
