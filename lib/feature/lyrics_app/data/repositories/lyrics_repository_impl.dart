@@ -17,39 +17,46 @@ import 'package:http/http.dart' as http;
 
 @Injectable(as: LyricsRepository)
 class LyricsRepositoryImpl implements LyricsRepository {
+  FunctionForGetLyrics function = FunctionForGetLyrics();
+
   @override
   Future<Either<Failure, LyricsModel>> getLyrics(String track) async {
-    final http.Response response = await requestGetLyrics(track);
-    TemplateLyricsEntity dataApi = createTemplateEntity(response);
-    if (response.statusCode == StatusCode.OK) {
-      if (getStatusCodeFromDataApi(dataApi) != StatusCode.OK) {
-        return Left(ServerFailure());
-      }
-      return Right(responseLyrics(getJson(response)));
-    }
-    return Left(ServerFailure());
-  }
+    final http.Response response = await function.requestGetLyrics(track);
 
-  // Function for getLyrics
+    if (!function.isRequestValid(response)) {
+      return Left(ServerFailure());
+    }
+    return Right(function.returnLyricsModel(response));
+  }
+}
+
+class FunctionForGetLyrics {
   Future<http.Response> requestGetLyrics(String track) async {
     return await client.get(Uri.parse(
         "${AppConstants.API_GET_LYRICS}track_id=$track&apikey=${AppConstants.API_KEY}"));
+  }
+
+  bool isRequestValid(http.Response response) {
+    TemplateLyricsEntity dataApi =
+        TemplateLyricsEntity.fromJson(getJson(response));
+    if (response.statusCode == StatusCode.OK) {
+      if (getStatusCodeFromDataApi(dataApi) != StatusCode.OK) {
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 
   Map<String, dynamic> getJson(http.Response response) {
     return json.decode(response.body);
   }
 
-  TemplateLyricsEntity createTemplateEntity(http.Response response) {
-    return TemplateLyricsEntity.fromJson(getJson(response));
-  }
-
   int? getStatusCodeFromDataApi(TemplateLyricsEntity dataApi) {
     return dataApi.message!.header!.statusCode;
   }
 
-  LyricsModel responseLyrics(Map<String, dynamic> json) {
-    LyricsModel lyricsModel = LyricsModel.fromJson(json);
-    return lyricsModel;
+  LyricsModel returnLyricsModel(http.Response response) {
+    return LyricsModel.fromJson(getJson(response));
   }
 }
