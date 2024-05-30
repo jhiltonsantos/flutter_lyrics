@@ -1,16 +1,16 @@
+Claro! Aqui está uma versão aprimorada do seu README:
+
+---
+
 # flutter_lyrics
 
-A new Flutter project.
+Este projeto é um estudo sobre a arquitetura TDD (Test-Driven Development) utilizando Flutter. Ele segue os tutoriais disponíveis em: [Reso Coder - Flutter Clean Architecture TDD](https://resocoder.com/flutter-clean-architecture-tdd/).
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- **Utilização de Testes:** Implementação de testes para garantir a qualidade e funcionalidade do código.
+- **Conexão com a API do Musixmatch:** Integração com a API do Musixmatch para buscar letras de músicas.
+- **Utilização de Interceptadores:** Implementação de interceptadores para manipular e gerenciar requisições e respostas HTTP.
+- **Injeção de Dependências:** Uso de técnicas de injeção de dependências para promover um código mais modular e testável.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
